@@ -1,0 +1,37 @@
+name: PR Respond
+
+on:
+  workflow_run:
+    workflows: [PR Analyze]
+    types:
+      - completed
+
+permissions:
+  pull-requests: write
+
+jobs:
+  respond:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: analysis-report
+          path: output/
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - run: pip install -r requirements.txt
+
+      - name: Post comment and alerts
+        run: python agent/orchestrator.py respond
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.event.workflow_run.head_repository.full_name }}
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          DRY_RUN: ${{ vars.DRY_RUN || 'false' }}

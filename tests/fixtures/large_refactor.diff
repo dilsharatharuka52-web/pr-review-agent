@@ -1,0 +1,29 @@
+diff --git a/src/core.py b/src/core.py
+index 111111..222222 100644
+--- a/src/core.py
++++ b/src/core.py
+@@ -1,200 +1,180 @@
++import json
++from dataclasses import dataclass
++
++@dataclass
++class Config:
++    host: str = "localhost"
++    port: int = 8080
++
++def load_config(path: str) -> Config:
++    with open(path) as f:
++        data = json.load(f)
++    return Config(**data)
++
++# refactor: extract config parsing to dedicated module
++# feat: add environment variable override support
++# fix: handle missing config file gracefully
++
+diff --git a/src/old_module.py b/src/old_module.py
+deleted file mode 100644
+index 333333..000000
+--- a/src/old_module.py
++++ /dev/null
+@@ -1,150 +0,0 @@
+-# This entire file was replaced
