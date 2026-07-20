@@ -19,7 +19,7 @@ def send_alert(report: AnalysisReport) -> None:
 
     emoji = RISK_EMOJI.get(report.risk_level, "⚪")
     pr_num = report.metadata.pr_number if report.metadata else "?"
-    repo = os.environ.get("GITHUB_REPOSITORY", "unknown/repo")
+    repo = os.environ.get("GIT_REPOSITORY", "unknown/repo")
 
     blocks = [
         {

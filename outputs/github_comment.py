@@ -79,10 +79,10 @@ def _build_body(report: AnalysisReport) -> str:
 
 
 def post_comment(pr_number: int, report: AnalysisReport) -> None:
-    token = os.environ["GITHUB_TOKEN"]
-    repo_name = os.environ.get("GITHUB_REPOSITORY", "")
+    token = os.environ["GIT_TOKEN"]
+    repo_name = os.environ.get("GIT_REPOSITORY", "")
     if not repo_name:
-        raise ValueError("GITHUB_REPOSITORY not set")
+        raise ValueError("GIT_REPOSITORY not set")
 
     g = Github(token)
     repo = g.get_repo(repo_name)

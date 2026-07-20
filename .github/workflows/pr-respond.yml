@@ -30,8 +30,8 @@ jobs:
       - name: Post comment and alerts
         run: python agent/orchestrator.py respond
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.event.workflow_run.head_repository.full_name }}
+          GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_REPOSITORY: ${{ github.event.workflow_run.head_repository.full_name }}
           GITHUB_EVENT_PATH: ${{ github.event_path }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           DRY_RUN: ${{ vars.DRY_RUN || 'false' }}
