@@ -14,6 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
+      - uses: actions/checkout@v4
+
       - uses: actions/download-artifact@v4
         with:
           name: analysis-report
@@ -30,6 +32,7 @@ jobs:
       - name: Post comment and alerts
         run: python agent/orchestrator.py respond
         env:
+          PYTHONPATH: .
           GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GIT_REPOSITORY: ${{ github.event.workflow_run.head_repository.full_name }}
           GITHUB_EVENT_PATH: ${{ github.event_path }}

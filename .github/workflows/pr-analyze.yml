@@ -26,6 +26,7 @@ jobs:
       - name: Run analysis
         run: python agent/orchestrator.py analyze
         env:
+          PYTHONPATH: .
           GIT_TOKEN: ${{ github.token }}
           GIT_REPOSITORY: ${{ github.repository }}
           GITHUB_EVENT_PATH: ${{ github.event_path }}
